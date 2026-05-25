@@ -3,28 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Webcams — Secteur Ohlungen / Haguenau (67)</title>
+  <title>Webcams — Alsace / Grand-Est</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
-    body {
-      background: #0f1117;
-      color: #e0e0e0;
-      font-family: 'Segoe UI', Arial, sans-serif;
-      min-height: 100vh;
-    }
+    body { background: #0f1117; color: #e0e0e0; font-family: 'Segoe UI', Arial, sans-serif; }
 
     header {
-      background: #1a1d27;
-      border-bottom: 2px solid #2a6496;
-      padding: 14px 24px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 8px;
+      background: #1a1d27; border-bottom: 2px solid #2a6496;
+      padding: 14px 24px; display: flex; align-items: center;
+      justify-content: space-between; flex-wrap: wrap; gap: 8px;
     }
-
     header h1 { font-size: 1.2rem; font-weight: 600; color: #5bc0de; }
     header h1 span { color: #888; font-size: 0.85rem; font-weight: 400; margin-left: 8px; }
 
@@ -32,266 +21,272 @@
     #progress { width: 100px; height: 4px; background: #2a2d3a; border-radius: 2px; overflow: hidden; }
     #progress-fill { height: 100%; background: #2a6496; width: 100%; transition: width 1s linear; }
 
+    nav {
+      background: #13151f; border-bottom: 1px solid #1e2130;
+      padding: 8px 24px; display: flex; gap: 8px; flex-wrap: wrap;
+    }
+    nav a {
+      font-size: 0.78rem; padding: 4px 12px; border-radius: 20px;
+      background: #1e2130; color: #aaa; text-decoration: none;
+      border: 1px solid #2a2d3a; transition: all 0.2s;
+    }
+    nav a:hover { background: #2a6496; color: #fff; border-color: #2a6496; }
+
+    .section {
+      padding: 20px 24px 0;
+      font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.12em;
+      color: #555; border-top: 1px solid #1a1d27; margin-top: 8px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .section:first-of-type { border-top: none; }
+    .section .count { color: #2a6496; font-weight: 700; font-size: 0.8rem; }
+
     .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-      gap: 20px;
-      padding: 20px 24px;
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 16px; padding: 12px 24px 20px;
     }
 
     .cam-card {
-      background: #1a1d27;
-      border: 1px solid #2a2d3a;
-      border-radius: 10px;
-      overflow: hidden;
+      background: #1a1d27; border: 1px solid #2a2d3a;
+      border-radius: 10px; overflow: hidden;
       transition: border-color 0.2s, box-shadow 0.2s;
     }
-    .cam-card:hover { border-color: #2a6496; box-shadow: 0 4px 20px rgba(42,100,150,0.15); }
+    .cam-card:hover { border-color: #2a6496; box-shadow: 0 4px 18px rgba(42,100,150,0.15); }
 
     .cam-header {
-      padding: 10px 14px;
-      display: flex; align-items: center; justify-content: space-between; gap: 8px;
+      padding: 9px 13px; display: flex; align-items: center;
+      justify-content: space-between; gap: 8px;
     }
-    .cam-title { font-size: 0.95rem; font-weight: 600; }
-    .cam-meta { display: flex; gap: 6px; align-items: center; }
+    .cam-title { font-size: 0.9rem; font-weight: 600; }
+    .cam-meta { display: flex; gap: 5px; align-items: center; flex-shrink: 0; }
 
     .badge {
-      font-size: 0.68rem; padding: 2px 7px; border-radius: 20px;
+      font-size: 0.65rem; padding: 2px 6px; border-radius: 20px;
       text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap;
     }
-    .badge-live  { background: #1a3a1a; color: #5cb85c; }
-    .badge-photo { background: #1e3a4a; color: #5bc0de; }
-    .badge-sanef { background: #2a1f3a; color: #c09ede; }
-    .badge-dist  { background: #2a2d3a; color: #aaa; }
+    .b-live  { background: #1a3a1a; color: #5cb85c; }
+    .b-photo { background: #1e3a4a; color: #5bc0de; }
+    .b-sanef { background: #2a1f3a; color: #c09ede; }
+    .b-dir   { background: #3a2a1a; color: #e09e5e; }
+    .b-dist  { background: #2a2d3a; color: #888; }
 
     .cam-img-wrap {
       position: relative; width: 100%; aspect-ratio: 16/9;
       background: #0d0f17; overflow: hidden;
     }
-    .cam-img-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .cam-img-wrap.tall { aspect-ratio: 4/3; }
+    .cam-img-wrap img  { width: 100%; height: 100%; object-fit: cover; display: block; }
     .cam-img-wrap iframe { width: 100%; height: 100%; border: none; display: block; }
 
     .overlay {
-      position: absolute; inset: 0;
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      gap: 10px; font-size: 0.82rem; background: #0d0f17;
-      transition: opacity 0.3s;
+      position: absolute; inset: 0; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 8px; font-size: 0.8rem; background: #0d0f17; transition: opacity 0.3s;
     }
     .overlay.hidden { opacity: 0; pointer-events: none; }
 
     .spinner {
-      width: 26px; height: 26px;
-      border: 3px solid #2a2d3a; border-top-color: #2a6496;
-      border-radius: 50%; animation: spin 0.9s linear infinite;
+      width: 24px; height: 24px; border: 3px solid #2a2d3a;
+      border-top-color: #2a6496; border-radius: 50%;
+      animation: spin 0.9s linear infinite;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
     .cam-footer {
-      padding: 8px 14px; font-size: 0.75rem; color: #555;
-      display: flex; justify-content: space-between;
+      padding: 7px 13px; font-size: 0.72rem; color: #555;
+      display: flex; justify-content: space-between; align-items: center;
     }
     .cam-footer a { color: #2a6496; text-decoration: none; }
     .cam-footer a:hover { text-decoration: underline; }
-
-    .section-label {
-      padding: 20px 24px 4px;
-      font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.12em; color: #444;
-      border-top: 1px solid #1e2130;
-    }
-    .section-label:first-of-type { border-top: none; }
   </style>
 </head>
 <body>
 
 <header>
-  <h1>Webcams <span>Secteur Ohlungen / Haguenau — Bas-Rhin (67)</span></h1>
+  <h1>Webcams <span>Alsace / Grand-Est — secteur Ohlungen (67)</span></h1>
   <div id="refresh-bar">
     <div id="progress"><div id="progress-fill"></div></div>
-    <span>Rafraîchissement dans <b id="countdown">30</b>s</span>
+    <span>Rafraîchissement <b id="countdown">30</b>s</span>
   </div>
 </header>
 
-<!-- Aérodrome live -->
-<p class="section-label">Aérodrome — ~8 km</p>
+<nav>
+  <a href="#aerodrome">Aérodrome</a>
+  <a href="#a4">A4 Schwindratzheim</a>
+  <a href="#a35nord">A35 Nord</a>
+  <a href="#a35sud">A35 Sud</a>
+  <a href="#cols">Cols</a>
+  <a href="#a31">A31 Moselle</a>
+</nav>
+
+<!-- AÉRODROME -->
+<div class="section" id="aerodrome"><span>Aérodrome Haguenau</span><span class="count">~8 km</span></div>
 <div class="grid">
   <div class="cam-card">
     <div class="cam-header">
       <span class="cam-title">Aérodrome de Haguenau</span>
-      <div class="cam-meta">
-        <span class="badge badge-live">Live HD</span>
-        <span class="badge badge-dist">~8 km</span>
-      </div>
+      <div class="cam-meta"><span class="badge b-live">Live HD</span><span class="badge b-dist">8 km</span></div>
     </div>
-    <div class="cam-img-wrap" style="aspect-ratio:4/3">
+    <div class="cam-img-wrap tall">
       <iframe src="https://www.haguenau.meteoamikuze.com/Live.html" title="Aérodrome Haguenau"></iframe>
     </div>
-    <div class="cam-footer">
-      <span>Haguenau LFSH</span>
-      <a href="https://www.haguenau.meteoamikuze.com/Live.html" target="_blank">Ouvrir ↗</a>
-    </div>
+    <div class="cam-footer"><span>LFSH Haguenau</span><a href="https://www.haguenau.meteoamikuze.com/Live.html" target="_blank">Ouvrir ↗</a></div>
   </div>
 </div>
 
-<!-- A4 Schwindratzheim -->
-<p class="section-label">Autoroute A4 — Péage Schwindratzheim (~15 km SO)</p>
+<!-- A4 SCHWINDRATZHEIM -->
+<div class="section" id="a4"><span>Autoroute A4 — Péage Schwindratzheim</span><span class="count">~15 km SO</span></div>
 <div class="grid" id="grid-a4"></div>
 
-<!-- A35 + Routes -->
-<p class="section-label">A35 &amp; Routes départementales</p>
-<div class="grid" id="grid-routes"></div>
+<!-- A35 NORD -->
+<div class="section" id="a35nord"><span>A35 Nord — Roppenheim / Hoerdt</span><span class="count">15–20 km</span></div>
+<div class="grid" id="grid-a35nord"></div>
+
+<!-- A35 SUD -->
+<div class="section" id="a35sud"><span>A35 Sud — Sélestat / Saint-Louis</span><span class="count">60–120 km</span></div>
+<div class="grid" id="grid-a35sud"></div>
+
+<!-- COLS -->
+<div class="section" id="cols"><span>Cols &amp; Routes départementales</span><span class="count">15–80 km</span></div>
+<div class="grid" id="grid-cols"></div>
+
+<!-- A31 MOSELLE -->
+<div class="section" id="a31"><span>A31 — Moselle / Meurthe-et-Moselle</span><span class="count">80–160 km</span></div>
+<div class="grid" id="grid-a31"></div>
 
 <script>
-  // === Caméras SANEF/Viewsurf (timestamps toutes les 10 min) ===
-  const sanefCameras = [
-    {
-      id: 'schwind01',
-      base: 'https://filmsgieat.viewsurf.com/sanef/Schwind01_mkv',
-      name: 'A4 — Péage Schwindratzheim → Strasbourg',
-      dist: '~15 km SO',
-      link: 'https://viewsurf.com/univers/trafic/vue/7576-france-alsace-schwindratzheim-a4-peage-de-schwindratzheim-strasbourg'
-    },
-    {
-      id: 'schwind02',
-      base: 'https://filmsgieat.viewsurf.com/sanef/Schwind02_mkv',
-      name: 'A4 — Péage Schwindratzheim → Paris',
-      dist: '~15 km SO',
-      link: 'https://viewsurf.com/univers/trafic/vue/7574-france-alsace-schwindratzheim-a4-peage-de-schwindratzheim-paris'
-    },
-  ];
+// ── Caméras SANEF/Viewsurf (timestamp 10 min) ──────────────────────────────
+const sanef = [
+  { id:'sw1', base:'https://filmsgieat.viewsurf.com/sanef/Schwind01_mkv',
+    name:'A4 → Strasbourg', dist:'15 km', grid:'grid-a4',
+    link:'https://viewsurf.com/univers/trafic/vue/7576-france-alsace-schwindratzheim-a4-peage-de-schwindratzheim-strasbourg' },
+  { id:'sw2', base:'https://filmsgieat.viewsurf.com/sanef/Schwind02_mkv',
+    name:'A4 → Paris',       dist:'15 km', grid:'grid-a4',
+    link:'https://viewsurf.com/univers/trafic/vue/7574-france-alsace-schwindratzheim-a4-peage-de-schwindratzheim-paris' },
+];
 
-  // === Caméras inforoute.alsace.eu (URL fixe, lastimage.jpeg) ===
-  const staticCameras = [
-    {
-      id: 'roppenheim',
-      url:  'https://inforoute.alsace.eu/webcamDIR/ROPPENHEIMA35/lastimage.jpeg',
-      name: 'A35 — Roppenheim',
-      loc:  'Frontière allemande D4/A35',
-      dist: '~15 km NE',
-    },
-    {
-      id: 'hoerdt',
-      url:  'https://inforoute.alsace.eu/webcamDIR/HOERDT/lastimage.jpeg',
-      name: 'A35 — Hoerdt (jonction A4)',
-      loc:  'Lauterbourg → Strasbourg',
-      dist: '~20 km SE',
-    },
-    {
-      id: 'saverne',
-      url:  'https://inforoute.alsace.eu/webcam67/SAVERNE-COL/lastimage.jpeg',
-      name: 'Col de Saverne — D1004',
-      loc:  'Direction Saverne / Vosges',
-      dist: '~15 km SO',
-    },
-  ];
+// ── Caméras inforoute.alsace.eu (lastimage.jpeg) ────────────────────────────
+const inforoute = [
+  // A35 Nord
+  { id:'rop',  url:'https://inforoute.alsace.eu/webcamDIR/ROPPENHEIMA35/lastimage.jpeg',
+    name:'A35 — Roppenheim',        loc:'Frontière DE → Strasbourg', dist:'15 km', grid:'grid-a35nord' },
+  { id:'hoe',  url:'https://inforoute.alsace.eu/webcamDIR/HOERDT/lastimage.jpeg',
+    name:'A35 — Hoerdt (jonct. A4)',loc:'Lauterbourg → Strasbourg',   dist:'20 km', grid:'grid-a35nord' },
+  // A35 Sud
+  { id:'sel',  url:'https://inforoute.alsace.eu/webcamDIR/SELESTAT/lastimage.jpeg',
+    name:'A35 — Sélestat',          loc:'Strasbourg → Colmar',         dist:'60 km', grid:'grid-a35sud' },
+  { id:'sl1',  url:'https://inforoute.alsace.eu/webcamDIR/SAINTLOUIS_1/lastimage.jpeg',
+    name:'A35 — Saint-Louis (1)',   loc:'Vers Bâle',                   dist:'130 km',grid:'grid-a35sud' },
+  { id:'sl2',  url:'https://inforoute.alsace.eu/webcamDIR/SAINTLOUIS_2/lastimage.jpeg',
+    name:'A35 — Saint-Louis (2)',   loc:'Plateforme multimodale',      dist:'130 km',grid:'grid-a35sud' },
+  { id:'sl3',  url:'https://inforoute.alsace.eu/webcamDIR/SAINTLOUIS_3/lastimage.jpeg',
+    name:'A35 — Saint-Louis (3)',   loc:'Vers Mulhouse sortie 37',     dist:'130 km',grid:'grid-a35sud' },
+  // Cols
+  { id:'sav',  url:'https://inforoute.alsace.eu/webcam67/SAVERNE-COL/lastimage.jpeg',
+    name:'Col de Saverne — D1004',  loc:'Direction Saverne',           dist:'15 km', grid:'grid-cols' },
+  { id:'don',  url:'https://inforoute.alsace.eu/webcam67/DONON/lastimage.jpeg',
+    name:'Col du Donon',            loc:'D392',                        dist:'65 km', grid:'grid-cols' },
+  { id:'cdf',  url:'https://inforoute.alsace.eu/webcam67/CHAMP-DU-FEU/lastimage.jpeg',
+    name:'Champ du Feu',            loc:'D425',                        dist:'55 km', grid:'grid-cols' },
+  { id:'han',  url:'https://inforoute.alsace.eu/webcam67/HANTZ/lastimage.jpeg',
+    name:'Col de Hantz',            loc:'D459',                        dist:'70 km', grid:'grid-cols' },
+];
 
-  // --- Rendu des cartes SANEF ---
-  const gridA4 = document.getElementById('grid-a4');
-  sanefCameras.forEach(cam => {
-    gridA4.innerHTML += `
-      <div class="cam-card">
-        <div class="cam-header">
-          <span class="cam-title">${cam.name}</span>
-          <div class="cam-meta">
-            <span class="badge badge-sanef">SANEF</span>
-            <span class="badge badge-dist">${cam.dist}</span>
-          </div>
-        </div>
-        <div class="cam-img-wrap">
-          <div class="overlay" id="ov-${cam.id}"><div class="spinner"></div><span>Recherche image…</span></div>
-          <img id="img-${cam.id}" alt="${cam.name}">
-        </div>
-        <div class="cam-footer">
-          <span>Source : Sanef / Viewsurf</span>
-          <a href="${cam.link}" target="_blank">Voir sur Viewsurf ↗</a>
-        </div>
-      </div>`;
-  });
+// ── Caméras webcam-autoroute.eu (A31 Moselle) ──────────────────────────────
+const dirEst = [
+  { id:'zouf', url:'https://www.webcam-autoroute.eu/images/dir_est_56.jpg', name:'A31 — Zoufftgen',     loc:'Frontière LU',         dist:'145 km' },
+  { id:'kan',  url:'https://www.webcam-autoroute.eu/images/dir_est_19.jpg', name:'A31 — Kanfen',        loc:'Thionville Nord',      dist:'140 km' },
+  { id:'thi',  url:'https://www.webcam-autoroute.eu/images/dir_est_52.jpg', name:'A31 — Thionville',    loc:'Centre',               dist:'130 km' },
+  { id:'yutz', url:'https://www.webcam-autoroute.eu/images/dir_est_55.jpg', name:'A31 — Yutz',          loc:'Thionville Sud',       dist:'125 km' },
+  { id:'tal',  url:'https://www.webcam-autoroute.eu/images/inforoute57_3.jpg', name:'A31 — Talange',    loc:'Metz Nord',            dist:'115 km' },
+  { id:'metz', url:'https://www.webcam-autoroute.eu/images/dir_est_27.jpg', name:'A31 — Metz',          loc:'Échangeur',            dist:'110 km' },
+  { id:'fey',  url:'https://www.webcam-autoroute.eu/images/dir_est_11.jpg', name:'A31 — Fey',           loc:'Metz Sud',             dist:'105 km' },
+  { id:'max',  url:'https://www.webcam-autoroute.eu/images/dir_est_26.jpg', name:'A31 — Maxéville',     loc:'Nancy Nord',           dist:'155 km' },
+  { id:'lax',  url:'https://www.webcam-autoroute.eu/images/dir_est_21.jpg', name:'A31 — Laxou',         loc:'Nancy Ouest',          dist:'160 km' },
+];
 
-  // --- Rendu des cartes statiques ---
-  const gridRoutes = document.getElementById('grid-routes');
-  staticCameras.forEach(cam => {
-    gridRoutes.innerHTML += `
-      <div class="cam-card">
-        <div class="cam-header">
-          <span class="cam-title">${cam.name}</span>
-          <div class="cam-meta">
-            <span class="badge badge-photo">Photo</span>
-            <span class="badge badge-dist">${cam.dist}</span>
-          </div>
-        </div>
-        <div class="cam-img-wrap">
-          <div class="overlay" id="ov-${cam.id}"><div class="spinner"></div><span>Chargement…</span></div>
-          <img id="img-${cam.id}" alt="${cam.name}">
-        </div>
-        <div class="cam-footer">
-          <span>${cam.loc}</span>
-          <a href="${cam.url}" target="_blank">Image directe ↗</a>
-        </div>
-      </div>`;
-  });
+// ── Rendu HTML générique ────────────────────────────────────────────────────
+function renderCard(cam, badgeClass, badgeLabel, footerLeft, link) {
+  const el = document.createElement('div');
+  el.className = 'cam-card';
+  el.innerHTML = `
+    <div class="cam-header">
+      <span class="cam-title">${cam.name}</span>
+      <div class="cam-meta">
+        <span class="badge ${badgeClass}">${badgeLabel}</span>
+        <span class="badge b-dist">${cam.dist}</span>
+      </div>
+    </div>
+    <div class="cam-img-wrap">
+      <div class="overlay" id="ov-${cam.id}"><div class="spinner"></div><span>Chargement…</span></div>
+      <img id="img-${cam.id}" alt="${cam.name}">
+    </div>
+    <div class="cam-footer">
+      <span>${footerLeft}</span>
+      <a href="${link}" target="_blank">Image ↗</a>
+    </div>`;
+  document.getElementById(cam.grid || 'grid-a31').appendChild(el);
+}
 
-  // --- Chargement image statique (URL fixe avec cache-bust) ---
-  function loadStatic(cam) {
-    const img = document.getElementById(`img-${cam.id}`);
-    const ov  = document.getElementById(`ov-${cam.id}`);
+sanef.forEach(c => renderCard(c, 'b-sanef', 'SANEF', 'Péage A4 Schwindratzheim', c.link));
+inforoute.forEach(c => renderCard(c, 'b-photo', 'DIR Est', c.loc, c.url));
+dirEst.forEach(c => renderCard({...c, grid:'grid-a31'}, 'b-dir', 'DIR Est', c.loc, c.url));
+
+// ── Chargement image fixe (cache-bust) ─────────────────────────────────────
+function loadStatic(id, url) {
+  const img = document.getElementById(`img-${id}`);
+  const ov  = document.getElementById(`ov-${id}`);
+  const tmp = new Image();
+  tmp.onload  = () => { img.src = tmp.src; ov.classList.add('hidden'); };
+  tmp.onerror = () => { ov.innerHTML = '<span style="color:#c0392b">Indisponible</span>'; };
+  tmp.src = `${url}?t=${Date.now()}`;
+}
+
+// ── Chargement SANEF (recherche timestamp décroissant) ─────────────────────
+function loadSanef(cam) {
+  const interval = 600;
+  const start    = Math.floor(Date.now() / 1000 / interval) * interval;
+  let   attempt  = 0;
+  function tryTs(ts) {
+    if (attempt++ > 36) {
+      document.getElementById(`ov-${cam.id}`).innerHTML = '<span style="color:#c0392b">Introuvable</span>';
+      return;
+    }
     const tmp = new Image();
-    tmp.onload = () => { img.src = tmp.src; ov.classList.add('hidden'); };
-    tmp.onerror = () => { ov.innerHTML = '<span style="color:#c0392b">Indisponible</span>'; };
-    tmp.src = `${cam.url}?t=${Date.now()}`;
+    tmp.onload = () => {
+      document.getElementById(`img-${cam.id}`).src = tmp.src;
+      document.getElementById(`ov-${cam.id}`).classList.add('hidden');
+    };
+    tmp.onerror = () => tryTs(ts - interval);
+    tmp.src = `${cam.base}/media_${ts}.jpg`;
   }
+  tryTs(start);
+}
 
-  // --- Chargement image SANEF (recherche par timestamp décroissant) ---
-  function loadSanef(cam) {
-    const interval = 600; // 10 min en secondes
-    const nowSec   = Math.floor(Date.now() / 1000);
-    const start    = Math.floor(nowSec / interval) * interval;
-    let   attempt  = 0;
+function refreshAll() {
+  sanef.forEach(loadSanef);
+  inforoute.forEach(c => loadStatic(c.id, c.url));
+  dirEst.forEach(c => loadStatic(c.id, c.url));
+}
 
-    function tryTs(ts) {
-      if (attempt++ > 30) { // max 5h de recherche en arrière
-        document.getElementById(`ov-${cam.id}`).innerHTML =
-          '<span style="color:#c0392b">Image introuvable</span>';
-        return;
-      }
-      const url = `${cam.base}/media_${ts}.jpg`;
-      const tmp = new Image();
-      tmp.onload = () => {
-        const img = document.getElementById(`img-${cam.id}`);
-        const ov  = document.getElementById(`ov-${cam.id}`);
-        img.src = tmp.src;
-        ov.classList.add('hidden');
-      };
-      tmp.onerror = () => tryTs(ts - interval);
-      tmp.src = url;
-    }
-    tryTs(start);
+refreshAll();
+
+// ── Compte à rebours ────────────────────────────────────────────────────────
+let remaining = 30;
+const countdown    = document.getElementById('countdown');
+const progressFill = document.getElementById('progress-fill');
+setInterval(() => {
+  remaining--;
+  countdown.textContent = remaining;
+  progressFill.style.width = `${(remaining / 30) * 100}%`;
+  if (remaining <= 0) {
+    remaining = 30;
+    progressFill.style.transition = 'none';
+    progressFill.style.width = '100%';
+    setTimeout(() => { progressFill.style.transition = 'width 1s linear'; }, 50);
+    refreshAll();
   }
-
-  function refreshAll() {
-    sanefCameras.forEach(loadSanef);
-    staticCameras.forEach(loadStatic);
-  }
-
-  refreshAll();
-
-  // --- Compte à rebours ---
-  let remaining = 30;
-  const countdown    = document.getElementById('countdown');
-  const progressFill = document.getElementById('progress-fill');
-
-  setInterval(() => {
-    remaining--;
-    countdown.textContent = remaining;
-    progressFill.style.width = `${(remaining / 30) * 100}%`;
-    if (remaining <= 0) {
-      remaining = 30;
-      progressFill.style.transition = 'none';
-      progressFill.style.width = '100%';
-      setTimeout(() => { progressFill.style.transition = 'width 1s linear'; }, 50);
-      refreshAll();
-    }
-  }, 1000);
+}, 1000);
 </script>
-
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Webcams Alsace - Secteur Haguenau / Ohlungen</title>
+  <title>Webcams — Secteur Ohlungen / Haguenau (67)</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -17,40 +17,54 @@
     header {
       background: #1a1d27;
       border-bottom: 2px solid #2a6496;
-      padding: 16px 24px;
+      padding: 14px 24px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       flex-wrap: wrap;
-      gap: 10px;
+      gap: 8px;
     }
 
     header h1 {
-      font-size: 1.3rem;
+      font-size: 1.2rem;
       font-weight: 600;
       color: #5bc0de;
     }
 
     header h1 span {
-      color: #aaa;
-      font-size: 0.9rem;
+      color: #888;
+      font-size: 0.85rem;
       font-weight: 400;
-      margin-left: 10px;
+      margin-left: 8px;
     }
 
-    #refresh-info {
+    #refresh-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
       font-size: 0.82rem;
       color: #888;
     }
 
-    #refresh-info b {
-      color: #5bc0de;
+    #progress {
+      width: 100px;
+      height: 4px;
+      background: #2a2d3a;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    #progress-fill {
+      height: 100%;
+      background: #2a6496;
+      width: 100%;
+      transition: width 1s linear;
     }
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-      gap: 18px;
+      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+      gap: 20px;
       padding: 24px;
     }
 
@@ -59,11 +73,12 @@
       border: 1px solid #2a2d3a;
       border-radius: 10px;
       overflow: hidden;
-      transition: border-color 0.2s;
+      transition: border-color 0.2s, box-shadow 0.2s;
     }
 
     .cam-card:hover {
       border-color: #2a6496;
+      box-shadow: 0 4px 20px rgba(42,100,150,0.15);
     }
 
     .cam-header {
@@ -71,38 +86,39 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      border-bottom: 1px solid #2a2d3a;
+      gap: 8px;
     }
 
     .cam-title {
       font-size: 0.95rem;
       font-weight: 600;
-      color: #e0e0e0;
     }
 
-    .cam-badge {
-      font-size: 0.7rem;
-      padding: 2px 8px;
+    .cam-meta {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .badge {
+      font-size: 0.68rem;
+      padding: 2px 7px;
       border-radius: 20px;
-      background: #1e3a4a;
-      color: #5bc0de;
       text-transform: uppercase;
       letter-spacing: 0.05em;
+      white-space: nowrap;
     }
 
-    .cam-badge.live {
-      background: #1a3a1a;
-      color: #5cb85c;
-    }
+    .badge-live  { background: #1a3a1a; color: #5cb85c; }
+    .badge-photo { background: #1e3a4a; color: #5bc0de; }
+    .badge-dist  { background: #2a2d3a; color: #aaa; }
 
     .cam-img-wrap {
       position: relative;
       width: 100%;
-      aspect-ratio: 4/3;
-      background: #0f1117;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      aspect-ratio: 16/9;
+      background: #0d0f17;
+      overflow: hidden;
     }
 
     .cam-img-wrap img {
@@ -112,7 +128,7 @@
       display: block;
     }
 
-    .cam-img-wrap .loading {
+    .cam-img-wrap .overlay {
       position: absolute;
       inset: 0;
       display: flex;
@@ -120,152 +136,178 @@
       align-items: center;
       justify-content: center;
       gap: 10px;
-      color: #555;
-      font-size: 0.85rem;
-      pointer-events: none;
+      font-size: 0.82rem;
+      background: #0d0f17;
+      transition: opacity 0.3s;
     }
 
+    .cam-img-wrap .overlay.hidden { opacity: 0; pointer-events: none; }
+
     .spinner {
-      width: 28px;
-      height: 28px;
+      width: 26px; height: 26px;
       border: 3px solid #2a2d3a;
       border-top-color: #2a6496;
       border-radius: 50%;
-      animation: spin 1s linear infinite;
+      animation: spin 0.9s linear infinite;
     }
 
     @keyframes spin { to { transform: rotate(360deg); } }
 
+    .cam-img-wrap iframe {
+      width: 100%; height: 100%; border: none; display: block;
+    }
+
     .cam-footer {
       padding: 8px 14px;
       font-size: 0.75rem;
-      color: #666;
+      color: #555;
       display: flex;
       justify-content: space-between;
-      align-items: center;
     }
 
-    .cam-footer a {
-      color: #2a6496;
-      text-decoration: none;
-    }
-
+    .cam-footer a { color: #2a6496; text-decoration: none; }
     .cam-footer a:hover { text-decoration: underline; }
 
-    .cam-iframe-wrap {
-      width: 100%;
-      aspect-ratio: 4/3;
-      background: #0f1117;
-    }
-
-    .cam-iframe-wrap iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-
-    .section-title {
-      padding: 8px 24px 0;
-      font-size: 0.8rem;
+    .section-label {
+      padding: 20px 24px 0;
+      font-size: 0.72rem;
       text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: #555;
+      letter-spacing: 0.12em;
+      color: #444;
+      border-top: 1px solid #1e2130;
+    }
+
+    .section-label:first-of-type { border-top: none; padding-top: 0; }
+
+    .no-cam {
+      grid-column: 1/-1;
+      padding: 30px;
+      text-align: center;
+      color: #444;
+      font-size: 0.9rem;
     }
   </style>
 </head>
 <body>
 
 <header>
-  <h1>Webcams Alsace <span>Secteur Haguenau / Ohlungen (67)</span></h1>
-  <div id="refresh-info">Rafraîchissement dans <b id="countdown">30</b>s</div>
+  <h1>Webcams <span>Secteur Ohlungen / Haguenau — Bas-Rhin (67)</span></h1>
+  <div id="refresh-bar">
+    <div id="progress"><div id="progress-fill"></div></div>
+    <span>Rafraîchissement dans <b id="countdown">30</b>s</span>
+  </div>
 </header>
 
-<p class="section-title">Aérodrome &amp; Trafic</p>
-<div class="grid" id="grid-trafic">
-
+<!-- Aérodrome Haguenau : flux live -->
+<p class="section-label">Aérodrome — ~8 km</p>
+<div class="grid">
   <div class="cam-card">
     <div class="cam-header">
       <span class="cam-title">Aérodrome de Haguenau</span>
-      <span class="cam-badge live">Live</span>
+      <div class="cam-meta">
+        <span class="badge badge-live">Live HD</span>
+        <span class="badge badge-dist">~8 km</span>
+      </div>
     </div>
-    <div class="cam-iframe-wrap">
-      <iframe src="https://www.haguenau.meteoamikuze.com/Live.html" title="Aérodrome Haguenau live"></iframe>
+    <div class="cam-img-wrap" style="aspect-ratio:4/3">
+      <iframe src="https://www.haguenau.meteoamikuze.com/Live.html" title="Aérodrome Haguenau"></iframe>
     </div>
     <div class="cam-footer">
-      <span>Haguenau (~8km)</span>
-      <a href="https://www.haguenau.meteoamikuze.com/Live.html" target="_blank">Ouvrir</a>
+      <span>Haguenau LFSH</span>
+      <a href="https://www.haguenau.meteoamikuze.com/Live.html" target="_blank">Ouvrir ↗</a>
     </div>
   </div>
-
 </div>
 
-<p class="section-title">Cols vosgiens — Bas-Rhin (67)</p>
-<div class="grid" id="grid-cols">
-</div>
+<!-- Caméras trafic proches -->
+<p class="section-label">Trafic routier — axes principaux</p>
+<div class="grid" id="grid-trafic"></div>
 
 <script>
   const cameras = [
-    { name: "Col du Donon",        url: "https://inforoute.alsace.eu/webcam67/DONON/lastimage.jpeg",        loc: "D392 — Donon" },
-    { name: "Champ du Feu",        url: "https://inforoute.alsace.eu/webcam67/CHAMP-DU-FEU/lastimage.jpeg", loc: "D425 — Champ du Feu" },
-    { name: "Col de Hantz",        url: "https://inforoute.alsace.eu/webcam67/HANTZ/lastimage.jpeg",        loc: "D459 — Hantz" },
-    { name: "Saales",              url: "https://inforoute.alsace.eu/webcam67/SAALES/lastimage.jpeg",       loc: "D1420 — Saales" },
-    { name: "Steige",              url: "https://inforoute.alsace.eu/webcam67/STEIGE/lastimage.jpeg",       loc: "D167 — Steige" },
-    { name: "Urbeis",              url: "https://inforoute.alsace.eu/webcam67/URBEIS/lastimage.jpeg",       loc: "D214 — Urbeis" },
-    { name: "La Charbonnière",     url: "https://inforoute.alsace.eu/webcam67/CHARBONNIERE/lastimage.jpeg", loc: "D420 — Charbonnière" },
-    { name: "Fouchy",              url: "https://inforoute.alsace.eu/webcam67/FOUCHY/lastimage.jpeg",       loc: "D48 — Fouchy" },
+    {
+      name: "A35 — Roppenheim",
+      url:  "https://inforoute.alsace.eu/webcamDIR/ROPPENHEIMA35/lastimage.jpeg",
+      loc:  "A35 / D4 — frontière allemande",
+      dist: "~15 km NE",
+      src:  "inforoute.alsace.eu"
+    },
+    {
+      name: "A35 — Hoerdt (jonction A4)",
+      url:  "https://inforoute.alsace.eu/webcamDIR/HOERDT/lastimage.jpeg",
+      loc:  "A35/A4 — Lauterbourg → Strasbourg",
+      dist: "~20 km SE",
+      src:  "inforoute.alsace.eu"
+    },
+    {
+      name: "Col de Saverne — D1004",
+      url:  "https://inforoute.alsace.eu/webcam67/SAVERNE-COL/lastimage.jpeg",
+      loc:  "D1004 — direction Saverne",
+      dist: "~15 km SO",
+      src:  "inforoute.alsace.eu"
+    },
   ];
 
-  const grid = document.getElementById('grid-cols');
+  const grid = document.getElementById('grid-trafic');
 
   cameras.forEach((cam, i) => {
-    const card = document.createElement('div');
-    card.className = 'cam-card';
-    card.innerHTML = `
-      <div class="cam-header">
-        <span class="cam-title">${cam.name}</span>
-        <span class="cam-badge">Photo</span>
-      </div>
-      <div class="cam-img-wrap">
-        <div class="loading"><div class="spinner"></div>Chargement...</div>
-        <img id="img-${i}" alt="${cam.name}" style="display:none">
-      </div>
-      <div class="cam-footer">
-        <span>${cam.loc}</span>
-        <a href="${cam.url}" target="_blank">Image directe</a>
-      </div>
-    `;
-    grid.appendChild(card);
+    grid.innerHTML += `
+      <div class="cam-card">
+        <div class="cam-header">
+          <span class="cam-title">${cam.name}</span>
+          <div class="cam-meta">
+            <span class="badge badge-photo">Photo</span>
+            <span class="badge badge-dist">${cam.dist}</span>
+          </div>
+        </div>
+        <div class="cam-img-wrap">
+          <div class="overlay" id="ov-${i}"><div class="spinner"></div><span>Chargement…</span></div>
+          <img id="img-${i}" alt="${cam.name}">
+        </div>
+        <div class="cam-footer">
+          <span>${cam.loc}</span>
+          <a href="${cam.url}" target="_blank">Image directe ↗</a>
+        </div>
+      </div>`;
   });
 
-  function refreshImages() {
-    const ts = Date.now();
-    cameras.forEach((cam, i) => {
-      const img = document.getElementById(`img-${i}`);
-      const loading = img.previousElementSibling;
-      const newImg = new Image();
-      newImg.onload = () => {
-        img.src = newImg.src;
-        img.style.display = 'block';
-        if (loading) loading.style.display = 'none';
-      };
-      newImg.onerror = () => {
-        if (loading) loading.innerHTML = '<span style="color:#c0392b">Image indisponible</span>';
-      };
-      newImg.src = `${cam.url}?t=${ts}`;
-    });
+  function loadImage(i) {
+    const img = document.getElementById(`img-${i}`);
+    const ov  = document.getElementById(`ov-${i}`);
+    const tmp = new Image();
+    tmp.onload = () => {
+      img.src = tmp.src;
+      ov.classList.add('hidden');
+    };
+    tmp.onerror = () => {
+      ov.innerHTML = '<span style="color:#c0392b">Image indisponible</span>';
+    };
+    tmp.src = `${cameras[i].url}?t=${Date.now()}`;
   }
 
-  refreshImages();
+  function refreshAll() {
+    cameras.forEach((_, i) => loadImage(i));
+  }
 
+  refreshAll();
+
+  // Compte à rebours + barre de progression
   let remaining = 30;
-  const countdown = document.getElementById('countdown');
+  const countdown    = document.getElementById('countdown');
+  const progressFill = document.getElementById('progress-fill');
+
+  progressFill.style.width = '100%';
 
   setInterval(() => {
     remaining--;
     countdown.textContent = remaining;
+    progressFill.style.width = `${(remaining / 30) * 100}%`;
     if (remaining <= 0) {
       remaining = 30;
-      refreshImages();
+      progressFill.style.transition = 'none';
+      progressFill.style.width = '100%';
+      setTimeout(() => { progressFill.style.transition = 'width 1s linear'; }, 50);
+      refreshAll();
     }
   }, 1000);
 </script>

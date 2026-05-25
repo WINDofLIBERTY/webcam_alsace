@@ -25,47 +25,18 @@
       gap: 8px;
     }
 
-    header h1 {
-      font-size: 1.2rem;
-      font-weight: 600;
-      color: #5bc0de;
-    }
+    header h1 { font-size: 1.2rem; font-weight: 600; color: #5bc0de; }
+    header h1 span { color: #888; font-size: 0.85rem; font-weight: 400; margin-left: 8px; }
 
-    header h1 span {
-      color: #888;
-      font-size: 0.85rem;
-      font-weight: 400;
-      margin-left: 8px;
-    }
-
-    #refresh-bar {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 0.82rem;
-      color: #888;
-    }
-
-    #progress {
-      width: 100px;
-      height: 4px;
-      background: #2a2d3a;
-      border-radius: 2px;
-      overflow: hidden;
-    }
-
-    #progress-fill {
-      height: 100%;
-      background: #2a6496;
-      width: 100%;
-      transition: width 1s linear;
-    }
+    #refresh-bar { display: flex; align-items: center; gap: 10px; font-size: 0.82rem; color: #888; }
+    #progress { width: 100px; height: 4px; background: #2a2d3a; border-radius: 2px; overflow: hidden; }
+    #progress-fill { height: 100%; background: #2a6496; width: 100%; transition: width 1s linear; }
 
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
       gap: 20px;
-      padding: 24px;
+      padding: 20px 24px;
     }
 
     .cam-card {
@@ -75,117 +46,59 @@
       overflow: hidden;
       transition: border-color 0.2s, box-shadow 0.2s;
     }
-
-    .cam-card:hover {
-      border-color: #2a6496;
-      box-shadow: 0 4px 20px rgba(42,100,150,0.15);
-    }
+    .cam-card:hover { border-color: #2a6496; box-shadow: 0 4px 20px rgba(42,100,150,0.15); }
 
     .cam-header {
       padding: 10px 14px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
+      display: flex; align-items: center; justify-content: space-between; gap: 8px;
     }
-
-    .cam-title {
-      font-size: 0.95rem;
-      font-weight: 600;
-    }
-
-    .cam-meta {
-      display: flex;
-      gap: 6px;
-      align-items: center;
-    }
+    .cam-title { font-size: 0.95rem; font-weight: 600; }
+    .cam-meta { display: flex; gap: 6px; align-items: center; }
 
     .badge {
-      font-size: 0.68rem;
-      padding: 2px 7px;
-      border-radius: 20px;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      white-space: nowrap;
+      font-size: 0.68rem; padding: 2px 7px; border-radius: 20px;
+      text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap;
     }
-
     .badge-live  { background: #1a3a1a; color: #5cb85c; }
     .badge-photo { background: #1e3a4a; color: #5bc0de; }
+    .badge-sanef { background: #2a1f3a; color: #c09ede; }
     .badge-dist  { background: #2a2d3a; color: #aaa; }
 
     .cam-img-wrap {
-      position: relative;
-      width: 100%;
-      aspect-ratio: 16/9;
-      background: #0d0f17;
-      overflow: hidden;
+      position: relative; width: 100%; aspect-ratio: 16/9;
+      background: #0d0f17; overflow: hidden;
     }
+    .cam-img-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .cam-img-wrap iframe { width: 100%; height: 100%; border: none; display: block; }
 
-    .cam-img-wrap img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    .cam-img-wrap .overlay {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      font-size: 0.82rem;
-      background: #0d0f17;
+    .overlay {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 10px; font-size: 0.82rem; background: #0d0f17;
       transition: opacity 0.3s;
     }
-
-    .cam-img-wrap .overlay.hidden { opacity: 0; pointer-events: none; }
+    .overlay.hidden { opacity: 0; pointer-events: none; }
 
     .spinner {
       width: 26px; height: 26px;
-      border: 3px solid #2a2d3a;
-      border-top-color: #2a6496;
-      border-radius: 50%;
-      animation: spin 0.9s linear infinite;
+      border: 3px solid #2a2d3a; border-top-color: #2a6496;
+      border-radius: 50%; animation: spin 0.9s linear infinite;
     }
-
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    .cam-img-wrap iframe {
-      width: 100%; height: 100%; border: none; display: block;
-    }
-
     .cam-footer {
-      padding: 8px 14px;
-      font-size: 0.75rem;
-      color: #555;
-      display: flex;
-      justify-content: space-between;
+      padding: 8px 14px; font-size: 0.75rem; color: #555;
+      display: flex; justify-content: space-between;
     }
-
     .cam-footer a { color: #2a6496; text-decoration: none; }
     .cam-footer a:hover { text-decoration: underline; }
 
     .section-label {
-      padding: 20px 24px 0;
-      font-size: 0.72rem;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: #444;
+      padding: 20px 24px 4px;
+      font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.12em; color: #444;
       border-top: 1px solid #1e2130;
     }
-
-    .section-label:first-of-type { border-top: none; padding-top: 0; }
-
-    .no-cam {
-      grid-column: 1/-1;
-      padding: 30px;
-      text-align: center;
-      color: #444;
-      font-size: 0.9rem;
-    }
+    .section-label:first-of-type { border-top: none; }
   </style>
 </head>
 <body>
@@ -198,7 +111,7 @@
   </div>
 </header>
 
-<!-- Aérodrome Haguenau : flux live -->
+<!-- Aérodrome live -->
 <p class="section-label">Aérodrome — ~8 km</p>
 <div class="grid">
   <div class="cam-card">
@@ -219,39 +132,85 @@
   </div>
 </div>
 
-<!-- Caméras trafic proches -->
-<p class="section-label">Trafic routier — axes principaux</p>
-<div class="grid" id="grid-trafic"></div>
+<!-- A4 Schwindratzheim -->
+<p class="section-label">Autoroute A4 — Péage Schwindratzheim (~15 km SO)</p>
+<div class="grid" id="grid-a4"></div>
+
+<!-- A35 + Routes -->
+<p class="section-label">A35 &amp; Routes départementales</p>
+<div class="grid" id="grid-routes"></div>
 
 <script>
-  const cameras = [
+  // === Caméras SANEF/Viewsurf (timestamps toutes les 10 min) ===
+  const sanefCameras = [
     {
-      name: "A35 — Roppenheim",
-      url:  "https://inforoute.alsace.eu/webcamDIR/ROPPENHEIMA35/lastimage.jpeg",
-      loc:  "A35 / D4 — frontière allemande",
-      dist: "~15 km NE",
-      src:  "inforoute.alsace.eu"
+      id: 'schwind01',
+      base: 'https://filmsgieat.viewsurf.com/sanef/Schwind01_mkv',
+      name: 'A4 — Péage Schwindratzheim → Strasbourg',
+      dist: '~15 km SO',
+      link: 'https://viewsurf.com/univers/trafic/vue/7576-france-alsace-schwindratzheim-a4-peage-de-schwindratzheim-strasbourg'
     },
     {
-      name: "A35 — Hoerdt (jonction A4)",
-      url:  "https://inforoute.alsace.eu/webcamDIR/HOERDT/lastimage.jpeg",
-      loc:  "A35/A4 — Lauterbourg → Strasbourg",
-      dist: "~20 km SE",
-      src:  "inforoute.alsace.eu"
-    },
-    {
-      name: "Col de Saverne — D1004",
-      url:  "https://inforoute.alsace.eu/webcam67/SAVERNE-COL/lastimage.jpeg",
-      loc:  "D1004 — direction Saverne",
-      dist: "~15 km SO",
-      src:  "inforoute.alsace.eu"
+      id: 'schwind02',
+      base: 'https://filmsgieat.viewsurf.com/sanef/Schwind02_mkv',
+      name: 'A4 — Péage Schwindratzheim → Paris',
+      dist: '~15 km SO',
+      link: 'https://viewsurf.com/univers/trafic/vue/7574-france-alsace-schwindratzheim-a4-peage-de-schwindratzheim-paris'
     },
   ];
 
-  const grid = document.getElementById('grid-trafic');
+  // === Caméras inforoute.alsace.eu (URL fixe, lastimage.jpeg) ===
+  const staticCameras = [
+    {
+      id: 'roppenheim',
+      url:  'https://inforoute.alsace.eu/webcamDIR/ROPPENHEIMA35/lastimage.jpeg',
+      name: 'A35 — Roppenheim',
+      loc:  'Frontière allemande D4/A35',
+      dist: '~15 km NE',
+    },
+    {
+      id: 'hoerdt',
+      url:  'https://inforoute.alsace.eu/webcamDIR/HOERDT/lastimage.jpeg',
+      name: 'A35 — Hoerdt (jonction A4)',
+      loc:  'Lauterbourg → Strasbourg',
+      dist: '~20 km SE',
+    },
+    {
+      id: 'saverne',
+      url:  'https://inforoute.alsace.eu/webcam67/SAVERNE-COL/lastimage.jpeg',
+      name: 'Col de Saverne — D1004',
+      loc:  'Direction Saverne / Vosges',
+      dist: '~15 km SO',
+    },
+  ];
 
-  cameras.forEach((cam, i) => {
-    grid.innerHTML += `
+  // --- Rendu des cartes SANEF ---
+  const gridA4 = document.getElementById('grid-a4');
+  sanefCameras.forEach(cam => {
+    gridA4.innerHTML += `
+      <div class="cam-card">
+        <div class="cam-header">
+          <span class="cam-title">${cam.name}</span>
+          <div class="cam-meta">
+            <span class="badge badge-sanef">SANEF</span>
+            <span class="badge badge-dist">${cam.dist}</span>
+          </div>
+        </div>
+        <div class="cam-img-wrap">
+          <div class="overlay" id="ov-${cam.id}"><div class="spinner"></div><span>Recherche image…</span></div>
+          <img id="img-${cam.id}" alt="${cam.name}">
+        </div>
+        <div class="cam-footer">
+          <span>Source : Sanef / Viewsurf</span>
+          <a href="${cam.link}" target="_blank">Voir sur Viewsurf ↗</a>
+        </div>
+      </div>`;
+  });
+
+  // --- Rendu des cartes statiques ---
+  const gridRoutes = document.getElementById('grid-routes');
+  staticCameras.forEach(cam => {
+    gridRoutes.innerHTML += `
       <div class="cam-card">
         <div class="cam-header">
           <span class="cam-title">${cam.name}</span>
@@ -261,8 +220,8 @@
           </div>
         </div>
         <div class="cam-img-wrap">
-          <div class="overlay" id="ov-${i}"><div class="spinner"></div><span>Chargement…</span></div>
-          <img id="img-${i}" alt="${cam.name}">
+          <div class="overlay" id="ov-${cam.id}"><div class="spinner"></div><span>Chargement…</span></div>
+          <img id="img-${cam.id}" alt="${cam.name}">
         </div>
         <div class="cam-footer">
           <span>${cam.loc}</span>
@@ -271,32 +230,54 @@
       </div>`;
   });
 
-  function loadImage(i) {
-    const img = document.getElementById(`img-${i}`);
-    const ov  = document.getElementById(`ov-${i}`);
+  // --- Chargement image statique (URL fixe avec cache-bust) ---
+  function loadStatic(cam) {
+    const img = document.getElementById(`img-${cam.id}`);
+    const ov  = document.getElementById(`ov-${cam.id}`);
     const tmp = new Image();
-    tmp.onload = () => {
-      img.src = tmp.src;
-      ov.classList.add('hidden');
-    };
-    tmp.onerror = () => {
-      ov.innerHTML = '<span style="color:#c0392b">Image indisponible</span>';
-    };
-    tmp.src = `${cameras[i].url}?t=${Date.now()}`;
+    tmp.onload = () => { img.src = tmp.src; ov.classList.add('hidden'); };
+    tmp.onerror = () => { ov.innerHTML = '<span style="color:#c0392b">Indisponible</span>'; };
+    tmp.src = `${cam.url}?t=${Date.now()}`;
+  }
+
+  // --- Chargement image SANEF (recherche par timestamp décroissant) ---
+  function loadSanef(cam) {
+    const interval = 600; // 10 min en secondes
+    const nowSec   = Math.floor(Date.now() / 1000);
+    const start    = Math.floor(nowSec / interval) * interval;
+    let   attempt  = 0;
+
+    function tryTs(ts) {
+      if (attempt++ > 30) { // max 5h de recherche en arrière
+        document.getElementById(`ov-${cam.id}`).innerHTML =
+          '<span style="color:#c0392b">Image introuvable</span>';
+        return;
+      }
+      const url = `${cam.base}/media_${ts}.jpg`;
+      const tmp = new Image();
+      tmp.onload = () => {
+        const img = document.getElementById(`img-${cam.id}`);
+        const ov  = document.getElementById(`ov-${cam.id}`);
+        img.src = tmp.src;
+        ov.classList.add('hidden');
+      };
+      tmp.onerror = () => tryTs(ts - interval);
+      tmp.src = url;
+    }
+    tryTs(start);
   }
 
   function refreshAll() {
-    cameras.forEach((_, i) => loadImage(i));
+    sanefCameras.forEach(loadSanef);
+    staticCameras.forEach(loadStatic);
   }
 
   refreshAll();
 
-  // Compte à rebours + barre de progression
+  // --- Compte à rebours ---
   let remaining = 30;
   const countdown    = document.getElementById('countdown');
   const progressFill = document.getElementById('progress-fill');
-
-  progressFill.style.width = '100%';
 
   setInterval(() => {
     remaining--;
